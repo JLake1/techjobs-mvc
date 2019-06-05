@@ -1,5 +1,6 @@
 package org.launchcode.controllers;
 
+import org.launchcode.Listing;
 import org.launchcode.models.JobData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -16,7 +18,13 @@ import java.util.HashMap;
 @RequestMapping(value = "list")
 public class ListController {
 
+    private String name;
+    private String position;
+    private String employer;
+    private String location;
+    private String skill;
     static HashMap<String, String> columnChoices = new HashMap<>();
+    private ArrayList<Listing> jobListings;
 
     public ListController () {
         columnChoices.put("core competency", "Skill");
@@ -41,6 +49,39 @@ public class ListController {
             ArrayList<HashMap<String, String>> jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
             model.addAttribute("jobs", jobs);
+            model.addAttribute("jobListings", jobListings);
+            model.addAttribute("name", name);
+            model.addAttribute("position", position);
+            model.addAttribute("employer", employer);
+            model.addAttribute("location", location);
+            model.addAttribute("skill", skill);
+
+            this.jobListings = new ArrayList<>();
+
+
+            for (HashMap<String, String> someJob : jobs) {
+
+                for (Map.Entry<String, String> e : someJob.entrySet()) {
+
+                    String jobKey = e.getKey();
+                    String jobValue = e.getValue();
+
+                    if (jobKey.equals("name")) {
+                        this.name = jobValue;
+                    } else if (jobKey.equals("position type")) {
+                        this.position = jobValue;
+                    } else if (jobKey.equals("employer")) {
+                        this.employer = jobValue;
+                    } else if (jobKey.equals("location")) {
+                        this.location = jobValue;
+                    } else if (jobKey.equals("core competency")) {
+                        this.skill = jobValue;
+                    }
+                }
+
+                Listing l = new Listing(name, position, employer, location, skill);
+                this.jobListings.add(l);
+            }
             return "list-jobs";
         } else {
             ArrayList<String> items = JobData.findAll(column);

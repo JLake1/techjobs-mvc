@@ -39,7 +39,7 @@
     <!-- TODO #2 - Loop over jobs map to display all job fields -->
 
 
-    <table th:each="someJob : ${jobListings}" class="job-listing">
+    <table th:fragment="listings" th:each="someJob : ${jobListings}" class="job-listing">
         <tr>
             <td>Name</td>
             <td th:text="${someJob.name}"></td>

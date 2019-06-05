@@ -38,8 +38,12 @@ public class SearchController {
     @RequestMapping(value = "results")       // append url with "search" ?
     public String results(Model model, @RequestParam String searchTerm, @RequestParam String searchType) {
 
-
         ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+
+        if (searchType.equals("all")) {
+            jobs = JobData.findByValue(searchTerm);
+        }
+
         this.jobListings = new ArrayList<>();
 
         model.addAttribute("columns", ListController.columnChoices);
@@ -75,7 +79,6 @@ public class SearchController {
 
         Listing l = new Listing(name, position, employer, location, skill);
         this.jobListings.add(l);
-        System.out.println(l.getName());
 
 
         }
