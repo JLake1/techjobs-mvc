@@ -33,7 +33,7 @@ public class SearchController {
         return "search";
     }
 
-    // TODO #1 - Create handler to process search request and display results
+
 
     @RequestMapping(value = "results")       // append url with "search" ?
     public String results(Model model, @RequestParam String searchTerm, @RequestParam String searchType) {
@@ -82,9 +82,6 @@ public class SearchController {
 
 
         }
-
-        //System.out.println(JobData.findByColumnAndValue(searchType, searchTerm));
-        //System.out.println("\n\n\n\n" + jobs +"\n\n\n\n");
 
         return "search";
     }
